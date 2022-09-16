@@ -1,5 +1,9 @@
 import { Service } from "typedi";
-import { AddTankSegmentDTO, CreateTankDTO } from "../interfaces/Tank";
+import {
+	AddTankSegmentDTO,
+	CreateTankDTO,
+	GetTankByIdDTO,
+} from "../interfaces/Tank";
 import { TankModel } from "../models/Tank";
 
 @Service()
@@ -9,12 +13,17 @@ export class TankService {
 		return tankRecord;
 	}
 
+	async getTankById(tankId: string) {
+		const tank = await TankModel.findOne({ _id: tankId });
+		return tank;
+	}
+
 	async addTankSegment(addTankSegmentDTO: AddTankSegmentDTO) {
 		const { tankId, startHeightInCm, endHeightInCm, volumePerCmInLiters } =
 			addTankSegmentDTO;
 
 		const updatedTankRecord = await TankModel.findOneAndUpdate(
-			{ id: tankId },
+			{ _id: tankId },
 			{
 				$push: {
 					segments: {
@@ -33,6 +42,6 @@ export class TankService {
 	async getAllTanks() {
 		const allTanks = await TankModel.find({});
 
-        return allTanks;
+		return allTanks;
 	}
 }

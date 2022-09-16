@@ -9,3 +9,7 @@ export interface AddTankSegmentDTO {
 	endHeightInCm: number;
 	volumePerCmInLiters: number;
 }
+
+export interface GetTankByIdDTO {
+	tankId: string;
+}
