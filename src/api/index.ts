@@ -1,10 +1,13 @@
 import express, { Request, Response } from "express";
+import { TankService } from "../services/tankService";
+
 const router = express.Router();
 
-// define the home page route
-router.post("/createTank", (req: Request, res: Response) => {
-	res.send("Birds home page");
+router.post("/createTank", async (req: Request, res: Response) => {
+	const createTankInput = req.body;
+	const tankService = new TankService();
+	const createdTank = await tankService.createTank(createTankInput);
+	res.send(createdTank);
 });
-// define the about route
 
 export { router };

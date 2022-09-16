@@ -1,8 +1,9 @@
+import { CreateTankDTO } from "../interfaces/Tank";
 import { TankModel } from "../models/Tank";
 
-export default class TankService {
-	async createTank() {
-        const tankRecord = await TankModel.create();
-        return tankRecord;
-    }
+export class TankService {
+	async createTank(createTankInput: CreateTankDTO) {
+		const tankRecord = await TankModel.create(createTankInput);
+		return tankRecord;
+	}
 }
