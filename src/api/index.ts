@@ -3,11 +3,12 @@ import { TankService } from "../services/tankService";
 import { Container } from "typedi";
 import { celebrate, Segments, Joi } from "celebrate";
 import { AddTankSegmentDTO, CreateTankDTO } from "../interfaces/Tank";
+import { Routes } from "../constants";
 
 const router = express.Router();
 
 router.post(
-	"/createTank",
+	Routes.CreateTank,
 	celebrate({
 		[Segments.BODY]: Joi.object().keys({
 			heightInCm: Joi.number().integer().required(),
@@ -26,7 +27,7 @@ router.post(
 );
 
 router.post(
-	"/addTankSegment",
+	Routes.AddTankSegment,
 	celebrate({
 		[Segments.BODY]: Joi.object().keys({
 			tankId: Joi.string(),
@@ -45,5 +46,13 @@ router.post(
 		res.send(tankRecord);
 	}
 );
+
+router.get(Routes.GetAllTanks, async (req: Request, res: Response) => {
+	const tankService = Container.get(TankService);
+
+	const allTanks = await tankService.getAllTanks();
+
+	res.send(allTanks);
+});
 
 export { router };
