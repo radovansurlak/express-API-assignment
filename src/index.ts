@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import { router } from "./api";
 import { connectDB } from "./config/db";
 import bodyParser from "body-parser";
+import { validationErrorHandler } from "./middleware/validationErrorHandler";
 
 import "reflect-metadata";
-import { validationErrorHandler } from "./middleware/validationErrorHandler";
 
 dotenv.config();
 
