@@ -1,8 +1,11 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import { router } from "./api";
 import { connectDB } from "./config/db";
 import bodyParser from "body-parser";
+
+import "reflect-metadata";
+import { validationErrorHandler } from "./middleware/validationErrorHandler";
 
 dotenv.config();
 
@@ -13,12 +16,9 @@ connectDB();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(router);
 
-app.get("/", (req: Request, res: Response) => {
-	res.send("Express + TypeScript Server");
-});
+app.use(validationErrorHandler);
 
 app.listen(port, () => {
 	console.log(`⚡️ Server is running on http://localhost:${port}`);

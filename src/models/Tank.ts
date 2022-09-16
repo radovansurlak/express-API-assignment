@@ -6,7 +6,6 @@ const Tank = new mongoose.Schema(
       type: Number,
       required: true,
     },
-
     volumeInLiters: {
       type: Number,
       required: true,
