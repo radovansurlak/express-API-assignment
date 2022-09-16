@@ -1,5 +1,5 @@
-export enum Routes {
-	CreateTank = "createTank",
-	AddTankSegment = "addTankSegment",
-	GetAllTanks = "getAllTanks",
-}
+export const Routes = {
+	CreateTank: "/createTank",
+	AddTankSegment: "/addTankSegment",
+	GetAllTanks: "/getAllTanks",
+};
