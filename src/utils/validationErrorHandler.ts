@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { isCelebrateError } from 'celebrate';
+import { StatusCode } from './statusCodes';
+import { ValidationErrorResponse } from './errorResponse';
 
+// eslint-disable-next-line consistent-return
 export function validationErrorHandler(
-  error: any,
+  error: unknown,
   req: Request,
   res: Response,
   next: NextFunction,
@@ -15,10 +18,10 @@ export function validationErrorHandler(
 
     const { message } = errorDetails;
 
-    return res.status(400).json({
-      error: message,
-    });
+    return res
+      .status(StatusCode.BadRequest)
+      .send(new ValidationErrorResponse(message));
   }
 
-  return res.status(500).send(error);
+  next(error);
 }

@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { celebrate, Segments, Joi } from 'celebrate';
 import { TankService } from '../services/tankService';
@@ -17,14 +17,18 @@ router.post(
       volumeInLiters: Joi.number().integer().required(),
     }),
   }),
-  async (req: Request, res: Response) => {
-    const createTankDTO: CreateTankDTO = req.body;
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const createTankDTO: CreateTankDTO = req.body;
 
-    const tankService = Container.get(TankService);
+      const tankService = Container.get(TankService);
 
-    const tankRecord = await tankService.createTank(createTankDTO);
+      const tankRecord = await tankService.createTank(createTankDTO);
 
-    res.send(tankRecord);
+      res.send(tankRecord);
+    } catch (error) {
+      next(error);
+    }
   },
 );
 
@@ -50,11 +54,15 @@ router.post(
 );
 
 router.get(Routes.GetAllTanks, async (req: Request, res: Response) => {
-  const tankService = Container.get(TankService);
+  try {
+    const tankService = Container.get(TankService);
 
-  const allTanks = await tankService.getAllTanks();
+    const allTanks = await tankService.getAllTanks();
 
-  res.send(allTanks);
+    res.send(allTanks);
+  } catch (error: unknown) {
+    res.status(500).send('Something broke!');
+  }
 });
 
 router.post(Routes.CreatePumpRecord, async (req: Request, res: Response) => {

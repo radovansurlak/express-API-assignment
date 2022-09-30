@@ -1,11 +1,11 @@
-import express, { Express } from "express";
-import dotenv from "dotenv";
-import { router } from "./api";
-import { connectDB } from "./config/db";
-import bodyParser from "body-parser";
-import { validationErrorHandler } from "./middleware/validationErrorHandler";
+import express, { Express } from 'express';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import { router } from './api';
+import { connectDB } from './config/db';
 
-import "reflect-metadata";
+import 'reflect-metadata';
+import { loadErrorHandlers } from './utils/loadErrorHandlers';
 
 dotenv.config();
 
@@ -18,8 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(router);
 
-app.use(validationErrorHandler);
+loadErrorHandlers(app);
+
 
 app.listen(port, () => {
-	console.log(`⚡️ Server is running on http://localhost:${port}`);
+  console.log(`⚡️ Server is running on http://localhost:${port}`);
 });
