@@ -1,9 +1,9 @@
-import { StatusCode } from "./statusCodes";
+import { StatusCode } from '../types/statusCodes';
 
 export class AppError extends Error {
   statusCode: number;
 
-  constructor(message: string, statusCode: number) {
+  constructor(message?: string, statusCode = 500) {
     super(message);
     this.statusCode = statusCode;
   }

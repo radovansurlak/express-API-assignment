@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { Container } from 'typedi';
 import { celebrate, Segments, Joi } from 'celebrate';
 import { TankService } from '../services/tankService';
@@ -6,6 +6,7 @@ import { AddTankSegmentDTO, CreateTankDTO } from '../interfaces/Tank';
 import { Routes } from '../constants';
 import { PumpRecordService } from '../services/pumpRecordService';
 import { CreatePumpRecordDTO } from '../interfaces/PumpRecord';
+import { catchAsync } from '../utils/catchAsync';
 
 const router = express.Router();
 
@@ -17,19 +18,15 @@ router.post(
       volumeInLiters: Joi.number().integer().required(),
     }),
   }),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const createTankDTO: CreateTankDTO = req.body;
+  catchAsync(async (req: Request, res: Response) => {
+    const createTankDTO: CreateTankDTO = req.body;
 
-      const tankService = Container.get(TankService);
+    const tankService = Container.get(TankService);
 
-      const tankRecord = await tankService.createTank(createTankDTO);
+    const tankRecord = await tankService.createTank(createTankDTO);
 
-      res.send(tankRecord);
-    } catch (error) {
-      next(error);
-    }
-  },
+    res.send(tankRecord);
+  }),
 );
 
 router.post(
@@ -42,7 +39,7 @@ router.post(
       volumePerCmInLiters: Joi.number().required(),
     }),
   }),
-  async (req: Request, res: Response) => {
+  catchAsync(async (req: Request, res: Response) => {
     const addTankSegmentDTO: AddTankSegmentDTO = req.body;
 
     const tankService = Container.get(TankService);
@@ -50,31 +47,33 @@ router.post(
     const tankRecord = await tankService.addTankSegment(addTankSegmentDTO);
 
     res.send(tankRecord);
-  },
+  }),
 );
 
-router.get(Routes.GetAllTanks, async (req: Request, res: Response) => {
-  try {
+router.get(
+  Routes.GetAllTanks,
+  catchAsync(async (req: Request, res: Response) => {
     const tankService = Container.get(TankService);
 
     const allTanks = await tankService.getAllTanks();
 
     res.send(allTanks);
-  } catch (error: unknown) {
-    res.status(500).send('Something broke!');
-  }
-});
+  }),
+);
 
-router.post(Routes.CreatePumpRecord, async (req: Request, res: Response) => {
-  const createPumpRecordDTO: CreatePumpRecordDTO = req.body;
+router.post(
+  Routes.CreatePumpRecord,
+  catchAsync(async (req: Request, res: Response) => {
+    const createPumpRecordDTO: CreatePumpRecordDTO = req.body;
 
-  const pumpRecordService = Container.get(PumpRecordService);
+    const pumpRecordService = Container.get(PumpRecordService);
 
-  const pumpRecord = await pumpRecordService.createPumpRecord(
-    createPumpRecordDTO,
-  );
+    const pumpRecord = await pumpRecordService.createPumpRecord(
+      createPumpRecordDTO,
+    );
 
-  res.send(pumpRecord);
-});
+    res.send(pumpRecord);
+  }),
+);
 
 export { router };
