@@ -1,6 +1,5 @@
 import Container, { Service } from 'typedi';
 import { CreatePumpRecordDTO } from '../interfaces/PumpRecord';
-import { PumpRecordModel } from '../models/PumpRecord';
 import { TankService } from './tankService';
 
 @Service()

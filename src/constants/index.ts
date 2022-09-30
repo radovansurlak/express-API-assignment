@@ -3,4 +3,5 @@ export const Routes = {
   AddTankSegment: '/addTankSegment',
   GetAllTanks: '/getAllTanks',
   CreatePumpRecord: '/createPumpRecord',
+  Login: '/login',
 };

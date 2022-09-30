@@ -14,3 +14,9 @@ export class NotFoundError extends AppError {
     super(message, StatusCode.NotFound);
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor(message = 'Unauthorized') {
+    super(message, StatusCode.Unauthorized);
+  }
+}

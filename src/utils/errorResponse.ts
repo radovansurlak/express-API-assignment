@@ -27,6 +27,17 @@ export class NotFoundResponse implements ErrorResponse {
   }
 }
 
+export class UnauthorizedResponse implements ErrorResponse {
+  status: number;
+
+  message: string;
+
+  constructor(message = 'unauthorized') {
+    this.status = StatusCode.Unauthorized;
+    this.message = message;
+  }
+}
+
 export class BadRequestResponse implements ErrorResponse {
   status: number;
 
