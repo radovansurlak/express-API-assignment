@@ -1,5 +1,5 @@
 export interface CreatePumpRecordDTO {
-	tankId: string;
-	startLevelInCm: number;
-	endLevelInCm: number;
+  tankId: string;
+  startLevelInCm: number;
+  endLevelInCm: number;
 }

@@ -1,47 +1,47 @@
-import { Service } from "typedi";
+import { Service } from 'typedi';
 import {
-	AddTankSegmentDTO,
-	CreateTankDTO,
-	GetTankByIdDTO,
-} from "../interfaces/Tank";
-import { TankModel } from "../models/Tank";
+  AddTankSegmentDTO,
+  CreateTankDTO,
+  GetTankByIdDTO,
+} from '../interfaces/Tank';
+import { TankModel } from '../models/Tank';
 
 @Service()
 export class TankService {
-	async createTank(createTankDTO: CreateTankDTO) {
-		const tankRecord = await TankModel.create(createTankDTO);
-		return tankRecord;
-	}
+  async createTank(createTankDTO: CreateTankDTO) {
+    const tankRecord = await TankModel.create(createTankDTO);
+    return tankRecord;
+  }
 
-	async getTankById(tankId: string) {
-		const tank = await TankModel.findOne({ _id: tankId });
-		return tank;
-	}
+  async getTankById(tankId: string) {
+    const tank = await TankModel.findOne({ _id: tankId });
+    return tank;
+  }
 
-	async addTankSegment(addTankSegmentDTO: AddTankSegmentDTO) {
-		const { tankId, startHeightInCm, endHeightInCm, volumePerCmInLiters } =
-			addTankSegmentDTO;
+  async addTankSegment(addTankSegmentDTO: AddTankSegmentDTO) {
+    const { tankId, startHeightInCm, endHeightInCm, volumePerCmInLiters } =
+      addTankSegmentDTO;
 
-		const updatedTankRecord = await TankModel.findOneAndUpdate(
-			{ _id: tankId },
-			{
-				$push: {
-					segments: {
-						startHeightInCm,
-						endHeightInCm,
-						volumePerCmInLiters,
-					},
-				},
-			},
-			{ new: true }
-		);
+    const updatedTankRecord = await TankModel.findOneAndUpdate(
+      { _id: tankId },
+      {
+        $push: {
+          segments: {
+            startHeightInCm,
+            endHeightInCm,
+            volumePerCmInLiters,
+          },
+        },
+      },
+      { new: true },
+    );
 
-		return updatedTankRecord;
-	}
+    return updatedTankRecord;
+  }
 
-	async getAllTanks() {
-		const allTanks = await TankModel.find({});
+  async getAllTanks() {
+    const allTanks = await TankModel.find({});
 
-		return allTanks;
-	}
+    return allTanks;
+  }
 }
