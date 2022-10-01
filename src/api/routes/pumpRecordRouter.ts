@@ -7,6 +7,6 @@ export const PumpRecordRouter = express.Router();
 
 PumpRecordRouter.post(
   Routes.CreatePumpRecord,
-  requireRole(['driver']),
+  requireRole(['driver', 'admin']),
   PumpRecordController.createPumpRecord,
 );

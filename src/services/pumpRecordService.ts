@@ -1,6 +1,7 @@
 import Container, { Service } from 'typedi';
 import { CreatePumpRecordDTO } from '../interfaces/PumpRecord';
 import { TankSegment } from '../interfaces/Tank';
+import { PumpRecordModel } from '../models/PumpRecord';
 import { AppError } from '../utils/error/errors';
 import { TankService } from './tankService';
 
@@ -19,11 +20,20 @@ export class PumpRecordService {
       throw new AppError('Specified tank not found');
     }
 
-    const pumpedVolume = await this.calculatePumpedVolume({
+    const volumePumpedInLiters = await this.calculatePumpedVolume({
       segments: tank.segments,
       startLevelInCm,
       endLevelInCm,
     });
+
+    const pumpRecord = await PumpRecordModel.create({
+      volumePumpedInLiters,
+      startLevelInCm,
+      endLevelInCm,
+      tankId,
+    });
+
+    return pumpRecord;
   }
 
   public async calculatePumpedVolume({
@@ -35,7 +45,7 @@ export class PumpRecordService {
     startLevelInCm: number;
     endLevelInCm: number;
   }) {
-    let totalVolumePumped = 0;
+    let volumePumpedInLiters = 0;
 
     let topCursor = startLevelInCm;
 
@@ -59,13 +69,13 @@ export class PumpRecordService {
           ? currentTopCursor - endLevelInCm
           : currentTopCursor - currentSegment.endHeightInCm;
 
-      totalVolumePumped +=
+      volumePumpedInLiters +=
         centimetersPumped * currentSegment.volumePerCmInLiters;
       topCursor -= centimetersPumped;
 
       availableSegments.splice(segmentIndex, 1);
     }
 
-    return totalVolumePumped;
+    return volumePumpedInLiters;
   }
 }

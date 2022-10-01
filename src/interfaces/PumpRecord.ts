@@ -1,5 +1,14 @@
+import type { ObjectId } from 'mongoose';
+
 export interface CreatePumpRecordDTO {
   tankId: string;
   startLevelInCm: number;
   endLevelInCm: number;
+}
+
+export interface PumpRecord {
+  tankId: ObjectId;
+  startLevelInCm: number;
+  endLevelInCm: number;
+  volumePumpedInLiters: number;
 }

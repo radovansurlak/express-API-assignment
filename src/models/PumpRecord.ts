@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { PumpRecord } from '../interfaces/PumpRecord';
 
-const PumpRecord = new mongoose.Schema({
+const PumpRecordSchema = new mongoose.Schema<PumpRecord>({
   tankId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -19,7 +20,7 @@ const PumpRecord = new mongoose.Schema({
   },
 });
 
-export const PumpRecordModel = mongoose.model<mongoose.Document>(
+export const PumpRecordModel = mongoose.model<PumpRecord>(
   'PumpRecord',
-  PumpRecord,
+  PumpRecordSchema,
 );
