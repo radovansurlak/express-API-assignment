@@ -13,3 +13,15 @@ export interface AddTankSegmentDTO {
 export interface GetTankByIdDTO {
   tankId: string;
 }
+
+export interface Segment {
+  startHeightInCm: number;
+  endHeightInCm: number;
+  volumePerCmInLiters: number;
+}
+
+export interface Tank {
+  heightInCm: number;
+  volumeInLiters: number;
+  segments: Segment[];
+}

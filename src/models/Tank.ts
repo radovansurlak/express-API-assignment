@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { Tank } from '../interfaces/Tank';
 
-const Tank = new mongoose.Schema(
+const TankSchema = new mongoose.Schema<Tank>(
   {
     heightInCm: {
       type: Number,
@@ -22,4 +23,4 @@ const Tank = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const TankModel = mongoose.model<mongoose.Document>('Tank', Tank);
+export const TankModel = mongoose.model<Tank>('Tank', TankSchema);
