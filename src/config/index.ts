@@ -9,13 +9,12 @@ export type ENV_VALUES = {
 function loadConfig() {
   dotenv.config();
 
-  const config = ENV_VARS.reduce((acc, curr) => {
-    const value = process.env[curr];
+  const config = ENV_VARS.reduce((variables, currentVariable) => {
+    const value = process.env[currentVariable];
     if (!value) {
-      throw new Error(`Missing ENV variable: ${curr}`);
+      throw new Error(`Missing ENV variable: ${currentVariable}`);
     }
-    acc[curr] = value;
-    return acc;
+    return Object.assign(variables, { [currentVariable]: value });
   }, {} as ENV_VALUES);
 
   return config;
