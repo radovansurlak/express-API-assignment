@@ -14,7 +14,7 @@ class TankController {
 
     const tankRecord = await tankService.createTank(createTankDTO);
 
-    handleDataResponse(response, { tankRecord });
+    handleDataResponse(response, tankRecord);
   }
 
   @catchAsyncMethod
@@ -25,7 +25,7 @@ class TankController {
 
     const tankRecord = await tankService.addTankSegment(addTankSegmentDTO);
 
-    handleDataResponse(response, { tankRecord });
+    handleDataResponse(response, tankRecord);
   }
 
   @catchAsyncMethod
@@ -34,7 +34,7 @@ class TankController {
 
     const allTanks = await tankService.getAllTanks();
 
-    handleDataResponse(response, { allTanks });
+    handleDataResponse(response, allTanks);
   }
 }
 

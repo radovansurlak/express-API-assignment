@@ -14,7 +14,7 @@ class AuthController {
 
     const authToken = await authenticationService.login(loginDTO);
 
-    handleDataResponse(response, { authToken });
+    handleDataResponse(response, authToken);
   }
 }
 
