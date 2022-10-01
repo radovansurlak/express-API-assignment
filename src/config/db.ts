@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
+import { appConfig } from '.';
 
 export const connectDB = async () => {
-  const mongodbUri = process.env.MONGODB_URI;
-  if (!mongodbUri) {
-    throw new Error('Missing MONGODB_URI env variable in configuration');
-  }
-  await mongoose.connect(mongodbUri);
+  const { MONGODB_URI } = appConfig;
+  await mongoose.connect(MONGODB_URI);
 };

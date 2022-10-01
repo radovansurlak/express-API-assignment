@@ -5,16 +5,16 @@ import { TankService } from './tankService';
 @Service()
 export class PumpRecordService {
   async createPumpRecord(createPumpRecordDTO: CreatePumpRecordDTO) {
-    const pumpedVolume = await this.calculatePumpedVolume(createPumpRecordDTO);
+    const pumpedVolume = await this.calculatePumpedVolume();
   }
 
-  private async calculatePumpedVolume(
-    createPumpRecordDTO: CreatePumpRecordDTO,
-  ) {
-    const tankService = Container.get(TankService);
-    const { tankId } = createPumpRecordDTO;
+  public async calculatePumpedVolume() {
+    // const tankService = Container.get(TankService);
+    // const { tankId } = createPumpRecordDTO;
 
-    const tank = await tankService.getTankById(tankId);
+    // const tank = await tankService.getTankById(tankId);
+
+    return 2;
     // find segments that were pumped from
   }
 }
