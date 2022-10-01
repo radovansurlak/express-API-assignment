@@ -5,7 +5,6 @@ import {
   GetTankByIdDTO,
 } from '../interfaces/Tank';
 import { TankModel } from '../models/Tank';
-import { AppError } from '../utils/errors';
 
 @Service()
 export class TankService {

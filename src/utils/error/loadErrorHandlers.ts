@@ -1,13 +1,13 @@
 import { Express, NextFunction, Request, Response } from 'express';
+import { StatusCode } from '../../types/statusCodes';
 import {
   AppErrorResponse,
   NotFoundResponse,
   UnauthorizedResponse,
 } from './errorResponse';
 import { NotFoundError, UnauthorizedError } from './errors';
-import { StatusCode } from '../types/statusCodes';
-import { validationErrorHandler } from './validationErrorHandler';
 import { notFoundErrorHandler } from './notFoundErrorHandler';
+import { validationErrorHandler } from './validationErrorHandler';
 
 export function loadErrorHandlers(app: Express) {
   app.use(validationErrorHandler);

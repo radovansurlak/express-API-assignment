@@ -3,7 +3,10 @@ import Container from 'typedi';
 import { UserRole } from '../interfaces/User';
 import { AuthenticationService } from '../services/authenticationService';
 import { catchAsync } from '../utils/catchAsync';
-import { UnauthorizedError } from '../utils/errors';
+import { UnauthorizedError } from '../utils/error/errors';
+
+function getAuthorizationToken(req: Request) {}
+
 
 export function requireRole(roles: UserRole[]) {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {

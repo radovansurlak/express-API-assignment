@@ -1,4 +1,4 @@
-import { StatusCode } from '../types/statusCodes';
+import { StatusCode } from '../../types/statusCodes';
 
 interface ErrorResponse {
   status: number;

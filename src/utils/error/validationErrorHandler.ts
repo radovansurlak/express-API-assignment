@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { isCelebrateError } from 'celebrate';
-import { StatusCode } from '../types/statusCodes';
+import { StatusCode } from '../../types/statusCodes';
 import { ValidationErrorResponse } from './errorResponse';
 
 // eslint-disable-next-line consistent-return

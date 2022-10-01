@@ -1,13 +1,12 @@
 import express, { Express } from 'express';
-import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import { router } from './api';
 import { connectDB } from './config/db';
 
 import 'reflect-metadata';
-import { loadErrorHandlers } from './utils/loadErrorHandlers';
+import { loadProcessHandlers } from './utils/process';
+import { loadErrorHandlers } from './utils/error/loadErrorHandlers';
 
-dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -20,7 +19,8 @@ app.use(router);
 
 loadErrorHandlers(app);
 
-
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`⚡️ Server is running on http://localhost:${port}`);
 });
+
+loadProcessHandlers(server);

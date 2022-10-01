@@ -3,8 +3,9 @@ import { Service } from 'typedi';
 import jwt from 'jsonwebtoken';
 import { LoginDTO } from '../interfaces/Authentication';
 import { UserModel } from '../models/User';
-import { UnauthorizedError } from '../utils/errors';
 import { UserRole } from '../interfaces/User';
+import { UnauthorizedError } from '../utils/error/errors';
+import { appConfig } from '../config';
 
 @Service()
 export class AuthenticationService {
@@ -22,7 +23,7 @@ export class AuthenticationService {
   }
 
   createToken({ userId, role }: { userId: string; role: UserRole }) {
-    return jwt.sign({ userId, role }, process.env.JWT_SECRET!, {
+    return jwt.sign({ userId, role }, appConfig.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
   }
