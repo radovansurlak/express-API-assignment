@@ -1,30 +1,47 @@
 import Container, { Service } from 'typedi';
 import { CreatePumpRecordDTO } from '../interfaces/PumpRecord';
-import { Tank } from '../interfaces/Tank';
+import { TankSegment } from '../interfaces/Tank';
+import { AppError } from '../utils/error/errors';
 import { TankService } from './tankService';
 
 @Service()
 export class PumpRecordService {
-  async createPumpRecord(createPumpRecordDTO: CreatePumpRecordDTO) {
-    // const pumpedVolume = await this.calculatePumpedVolume();
+  async createPumpRecord({
+    tankId,
+    startLevelInCm,
+    endLevelInCm,
+  }: CreatePumpRecordDTO) {
+    const tankService = Container.get(TankService);
+
+    const tank = await tankService.getTankById(tankId);
+
+    if (!tank) {
+      throw new AppError('Specified tank not found');
+    }
+
+    const pumpedVolume = await this.calculatePumpedVolume({
+      segments: tank.segments,
+      startLevelInCm,
+      endLevelInCm,
+    });
   }
 
   public async calculatePumpedVolume({
-    tank,
-    startHeightInCm,
-    endHeightInCm,
+    segments,
+    startLevelInCm,
+    endLevelInCm,
   }: {
-    tank: Tank;
-    startHeightInCm: number;
-    endHeightInCm: number;
+    segments: TankSegment[];
+    startLevelInCm: number;
+    endLevelInCm: number;
   }) {
     let totalVolumePumped = 0;
 
-    let topCursor = startHeightInCm;
+    let topCursor = startLevelInCm;
 
-    const availableSegments = [...tank.segments];
+    const availableSegments = [...segments];
 
-    while (topCursor !== endHeightInCm) {
+    while (topCursor !== endLevelInCm) {
       const currentTopCursor = topCursor;
 
       const currentSegment = availableSegments.find(
@@ -38,8 +55,8 @@ export class PumpRecordService {
       const segmentIndex = availableSegments.indexOf(currentSegment);
 
       const centimetersPumped =
-        startHeightInCm >= currentSegment.endHeightInCm
-          ? currentTopCursor - currentSegment.endHeightInCm
+        endLevelInCm >= currentSegment.endHeightInCm
+          ? currentTopCursor - endLevelInCm
           : currentTopCursor - currentSegment.endHeightInCm;
 
       totalVolumePumped +=

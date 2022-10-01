@@ -14,7 +14,7 @@ export interface GetTankByIdDTO {
   tankId: string;
 }
 
-export interface Segment {
+export interface TankSegment {
   startHeightInCm: number;
   endHeightInCm: number;
   volumePerCmInLiters: number;
@@ -23,5 +23,5 @@ export interface Segment {
 export interface Tank {
   heightInCm: number;
   volumeInLiters: number;
-  segments: Segment[];
+  segments: TankSegment[];
 }
