@@ -16,7 +16,7 @@ class PumpRecordController {
       createPumpRecordDTO,
     );
 
-    handleDataResponse(response, pumpRecord);
+    handleDataResponse(response, { pumpRecord });
   }
 }
 
