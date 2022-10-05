@@ -1,9 +1,10 @@
 import { Response } from 'express';
+import { StatusCode } from '../types/statusCodes';
 import { DataResponse } from './dataResponse';
 
 export function handleDataResponse(
   response: Response,
   data: Record<string, unknown>,
 ) {
-  response.status(200).send(new DataResponse(data));
+  response.status(StatusCode.Success).send(new DataResponse(data));
 }
