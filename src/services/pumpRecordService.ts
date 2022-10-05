@@ -44,36 +44,46 @@ export class PumpRecordService {
     startLevelInCm: number;
     endLevelInCm: number;
   }) {
-    let volumePumpedInLiters = 0;
-
-    let topCursor = startLevelInCm;
-
-    const availableSegments = [...segments];
-
-    while (topCursor !== endLevelInCm) {
-      const currentTopCursor = topCursor;
-
+    function calculatePumpedVolumeFromSegments(
+      cursor: number,
+      availableSegments: TankSegment[],
+      litersPumped = 0,
+    ): number {
       const currentSegment = availableSegments.find(
         (segment) =>
-          segment.startHeightInCm >= currentTopCursor &&
-          segment.endHeightInCm <= currentTopCursor,
+          segment.startHeightInCm >= cursor && segment.endHeightInCm <= cursor,
       );
 
-      if (!currentSegment) break;
+      if (!currentSegment) return litersPumped;
 
       const segmentIndex = availableSegments.indexOf(currentSegment);
 
       const centimetersPumped =
         endLevelInCm >= currentSegment.endHeightInCm
-          ? currentTopCursor - endLevelInCm
-          : currentTopCursor - currentSegment.endHeightInCm;
+          ? cursor - endLevelInCm
+          : cursor - currentSegment.endHeightInCm;
 
-      volumePumpedInLiters +=
+      const newLitersPumped =
         centimetersPumped * currentSegment.volumePerCmInLiters;
-      topCursor -= centimetersPumped;
 
-      availableSegments.splice(segmentIndex, 1);
+      const newCursor = cursor - centimetersPumped;
+
+      const newSegments = availableSegments.filter(
+        (segment, index) => index !== segmentIndex,
+      );
+
+      const totalLitersPumped = newLitersPumped + litersPumped;
+
+      if (cursor !== endLevelInCm) {
+        return calculatePumpedVolumeFromSegments(newCursor, newSegments, totalLitersPumped);
+      }
+      return totalLitersPumped;
     }
+
+    const volumePumpedInLiters = calculatePumpedVolumeFromSegments(
+      startLevelInCm,
+      segments,
+    );
 
     return volumePumpedInLiters;
   }
