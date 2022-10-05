@@ -16,15 +16,9 @@ export const catchAsyncMethod = (
   // Save a reference to the original method
   const originalMethod = descriptor.value;
 
-  const wrappedDescriptor = { ...descriptor };
-
-  wrappedDescriptor.value = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    originalMethod(req, res).catch((err: Error | any) => next(err));
+  return {
+    ...descriptor,
+    value: (req: Request, res: Response, next: NextFunction) =>
+      originalMethod(req, res).catch((err: Error | any) => next(err)),
   };
-
-  return wrappedDescriptor;
 };
