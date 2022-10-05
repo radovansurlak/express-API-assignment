@@ -8,6 +8,7 @@ export const PumpRecordRouter = express.Router();
 
 PumpRecordRouter.post(
   Routes.CreatePumpRecord,
+  requireRole(['driver', 'admin']),
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       tankId: Joi.string().required(),
@@ -15,6 +16,5 @@ PumpRecordRouter.post(
       endLevelInCm: Joi.number().integer().required(),
     }),
   }),
-  requireRole(['driver', 'admin']),
   PumpRecordController.createPumpRecord,
 );
