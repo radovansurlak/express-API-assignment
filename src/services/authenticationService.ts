@@ -12,7 +12,9 @@ export class AuthenticationService {
   async login(loginDTO: LoginDTO): Promise<string> {
     const user = await UserModel.findOne(loginDTO);
 
-    if (!user) throw new UnauthorizedError('wrong email or password');
+    if (!user) {
+      throw new UnauthorizedError('wrong email or password');
+    }
 
     const authToken = this.createToken({
       userId: user._id.toString(),
