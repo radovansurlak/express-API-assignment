@@ -10,8 +10,10 @@ PumpRecordRouter.post(
   Routes.CreatePumpRecord,
   requireRole(['driver', 'admin']),
   celebrate({
-    [Segments.BODY]: Joi.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
       tankId: Joi.string().required(),
+    }),
+    [Segments.BODY]: Joi.object().keys({
       startLevelInCm: Joi.number().integer().required(),
       endLevelInCm: Joi.number().integer().required(),
     }),

@@ -22,8 +22,10 @@ TankRouter.post(
   Routes.AddTankSegment,
   requireRole(['admin']),
   celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      tankId: Joi.string().required(),
+    }),
     [Segments.BODY]: Joi.object().keys({
-      tankId: Joi.string(),
       startHeightInCm: Joi.number().integer().required(),
       endHeightInCm: Joi.number().integer().required(),
       volumePerCmInLiters: Joi.number().required(),

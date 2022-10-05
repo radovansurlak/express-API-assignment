@@ -2,7 +2,6 @@ import { Service } from 'typedi';
 import {
   AddTankSegmentDTO,
   CreateTankDTO,
-  GetTankByIdDTO,
 } from '../interfaces/Tank';
 import { TankModel } from '../models/Tank';
 
@@ -18,8 +17,8 @@ export class TankService {
     return tank;
   }
 
-  async addTankSegment(addTankSegmentDTO: AddTankSegmentDTO) {
-    const { tankId, startHeightInCm, endHeightInCm, volumePerCmInLiters } =
+  async addTankSegment(tankId: string, addTankSegmentDTO: AddTankSegmentDTO) {
+    const { startHeightInCm, endHeightInCm, volumePerCmInLiters } =
       addTankSegmentDTO;
 
     const updatedTankRecord = await TankModel.findOneAndUpdate(

@@ -7,11 +7,10 @@ import { TankService } from './tankService';
 
 @Service()
 export class PumpRecordService {
-  async createPumpRecord({
-    tankId,
-    startLevelInCm,
-    endLevelInCm,
-  }: CreatePumpRecordDTO) {
+  async createPumpRecord(
+    tankId: string,
+    { startLevelInCm, endLevelInCm }: CreatePumpRecordDTO,
+  ) {
     const tankService = Container.get(TankService);
 
     const tank = await tankService.getTankById(tankId);

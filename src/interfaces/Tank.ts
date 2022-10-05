@@ -4,7 +4,6 @@ export interface CreateTankDTO {
 }
 
 export interface AddTankSegmentDTO {
-  tankId: string;
   startHeightInCm: number;
   endHeightInCm: number;
   volumePerCmInLiters: number;

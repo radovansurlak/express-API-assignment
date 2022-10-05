@@ -19,11 +19,12 @@ class TankController {
 
   @catchAsyncMethod
   async createTankSegment(request: Request, response: Response) {
+    const { tankId } = request.params;
     const addTankSegmentDTO: AddTankSegmentDTO = request.body;
 
     const tankService = Container.get(TankService);
 
-    const tankRecord = await tankService.addTankSegment(addTankSegmentDTO);
+    const tankRecord = await tankService.addTankSegment(tankId, addTankSegmentDTO);
 
     handleDataResponse(response, { tankRecord });
   }

@@ -8,11 +8,13 @@ import { handleDataResponse } from '../../utils/handleDataResponse';
 class PumpRecordController {
   @catchAsyncMethod
   async createPumpRecord(request: Request, response: Response) {
+    const { tankId } = request.params;
     const createPumpRecordDTO: CreatePumpRecordDTO = request.body;
 
     const pumpRecordService = Container.get(PumpRecordService);
 
     const pumpRecord = await pumpRecordService.createPumpRecord(
+      tankId,
       createPumpRecordDTO,
     );
 
