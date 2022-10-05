@@ -16,9 +16,8 @@ export const catchAsyncMethod = (
   // Save a reference to the original method
   const originalMethod = descriptor.value;
 
-  return {
-    ...descriptor,
+  return Object.assign(descriptor, {
     value: (req: Request, res: Response, next: NextFunction) =>
       originalMethod(req, res).catch((err: Error | any) => next(err)),
-  };
+  });
 };
