@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import { Tank } from '../../interfaces/Tank';
 import { TankModel } from '../../models/Tank';
 import { app } from '../../server';
+import { ADMIN_USER } from '../utils/users';
 
 const TEST_TANK = {
   heightInCm: 100,
@@ -20,12 +21,6 @@ const TEST_TANK = {
       volumePerCmInLiters: 0.5,
     },
   ],
-};
-
-const ADMIN_USER = {
-  username: 'admin',
-  password: 'l33th4ck3r',
-  role: 'admin',
 };
 
 test('GET /getAllTanks', async () => {
@@ -47,7 +42,8 @@ test('GET /getAllTanks', async () => {
     .then((response) => {
       expect(response.body.data.allTanks).toBeDefined();
       const createdTank = response.body.data.allTanks.find(
-        (tank: Tank & mongoose.Document) => tank._id.toString() === testTank._id.toString(),
+        (tank: Tank & mongoose.Document) =>
+          tank._id.toString() === testTank._id.toString(),
       );
       expect(createdTank._id.toString()).toBe(testTank._id.toString());
       expect(createdTank).toBeDefined();

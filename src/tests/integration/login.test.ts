@@ -2,12 +2,7 @@
 import supertest from 'supertest';
 import { UserModel } from '../../models/User';
 import { app } from '../../server';
-
-const ADMIN_USER = {
-  username: 'admin',
-  password: 'l33th4ck3r',
-  role: 'admin',
-};
+import { ADMIN_USER } from '../utils/users';
 
 test('POST /login', async () => {
   await UserModel.create(ADMIN_USER);
